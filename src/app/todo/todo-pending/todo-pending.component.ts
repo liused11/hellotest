@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { TodoService } from '../../todo copy/todo.service';
+import { TodoService } from '../todo.service';
 import { NgIf, NgFor } from '@angular/common';
-import { Todo } from '../../todo copy/todo.model';
+import { Todo } from '../../todo/todo.model';
 
 @Component({
   selector: 'app-todo-pending',
