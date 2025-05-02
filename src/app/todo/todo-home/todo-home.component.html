@@ -1,1 +1,67 @@
-<p>todo-home works!</p>
+<section class = "mt-10 mb-25">
+    <div class="container mx-auto p-4 max-w-4xl">
+        <h1 class="text-2xl font-bold mb-6">All Tasks</h1>
+      
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+          <!-- Task List -->
+          <div *ngIf="todos.length > 0; else noTasks">
+            <div *ngFor="let todo of todos" class="border-b border-gray-200 last:border-0">
+              <div class="flex items-center p-4 hover:bg-gray-50" [class.bg-green-50]="todo.completed">
+                <!-- Checkbox -->
+                <button 
+                  class="w-6 h-6 rounded-full border-2 flex items-center justify-center mr-4 focus:outline-none"
+                  [class.border-gray-400]="!todo.completed"
+                  [class.bg-green-500]="todo.completed"
+                  [class.border-green-500]="todo.completed"
+                  (click)="toggleComplete(todo)">
+                  <svg *ngIf="todo.completed" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                  </svg>
+                </button>
+      
+                <!-- Task Details -->
+                <div class="flex-grow" [class.line-through]="todo.completed" [class.text-gray-500]="todo.completed">
+                  <ng-container *ngIf="editingTodoId !== todo.id; else editForm">
+                    <span>{{ todo.task }}</span>
+                  </ng-container>
+                  <ng-template #editForm>
+                    <input 
+                      #editInput
+                      type="text" 
+                      [value]="todo.task" 
+                      class="w-full border-b border-gray-300 focus:border-blue-500 focus:outline-none py-1"
+                      (keyup.enter)="updateTask(todo.id, editInput.value)"
+                      (blur)="updateTask(todo.id, editInput.value)">
+                  </ng-template>
+                </div>
+      
+                <!-- Actions -->
+                <div class="flex space-x-2 ml-4">
+                  <button 
+                    class="p-1 rounded text-blue-600 hover:bg-blue-100 focus:outline-none"
+                    (click)="editTodo(todo.id)">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                  </button>
+                  <button 
+                    class="p-1 rounded text-red-600 hover:bg-red-100 focus:outline-none"
+                    (click)="deleteTodo(todo.id)">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+      
+          <!-- Empty State -->
+          <ng-template #noTasks>
+            <div class="p-8 text-center text-gray-500">
+              <p>No tasks found.</p>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </section>
